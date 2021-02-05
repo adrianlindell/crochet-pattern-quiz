@@ -2,9 +2,9 @@ import React from "react";
 import Answer from "./Answer";
 
 function Question(props) {
-
   const answerElements = props.answers.map(answer => (
     <Answer
+      questionID={answer.questionID}
       imgsrc={answer.imgsrc}
       caption={answer.caption}
       photographer={answer.photographer}
@@ -13,14 +13,9 @@ function Question(props) {
       onClick={props.onClick}
     />
   ));
-  {/*
-    when an answer is clicked, add a point to the corresponding bucket
-    Answer element will report its id to Question and then Form
-    Form will handle all total buckets
-  */}
 
   return (
-    <fieldset id={props.id}>
+    <fieldset id={props.id} style={{backgroundColor: "#f9ecf2"}}>
       <legend>{props.legend}</legend>
       <ul role="radiogroup" class="answer-tile">
         {answerElements}

@@ -23,7 +23,7 @@ function App() {
         Find out which crochet animal matches your personality by answering these 4 questions.
       </h2>
       <Form />
-      <div class="GoogleOAuth">
+      <div className="GoogleOAuth">
         <Login loggedIn={loggedIn} setLoggedIn = {(bool) => setLoggedIn(bool)} setName={(name) => setName(name)}/>
         {loggedIn ? <p>Hello {name}</p> : <p>Not logged in</p> }
         <Logout loggedIn={loggedIn} setLoggedIn = {(bool) => setLoggedIn(bool)}/>

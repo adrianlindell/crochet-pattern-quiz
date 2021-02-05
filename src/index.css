@@ -38,15 +38,26 @@ ul {
   width: 250px;
   height: 250px;
   background-color: #216cbd;
+  align-self: center;
   overflow: hidden;
-  align-self: justify;
+  cursor: pointer;
+}
+
+.answer-nonclickable {
+  margin: auto;
+  width: 250px;
+  height: 250px;
+  background-color: #0cdd2f;
+  align-self: center;
+  overflow: hidden;
   cursor: pointer;
 }
 
 .answer-image {
-  object-fit: cover;
   background-color: lightsalmon;
-  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  overflow: inherit;
   max-height: 65%;
 }
 
