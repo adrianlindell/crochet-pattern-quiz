@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: white;
+  font-family: 'Lato', sans-serif;
 }
 
 .App-logo {
@@ -39,5 +41,9 @@
 
 .GoogleOAuth {
   display: flex;
+  align-items: center;
+  align-content: center;
   justify-content: space-evenly;
+  margin-left: 25%;
+  margin-right: 25%;
 }

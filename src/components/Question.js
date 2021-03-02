@@ -3,23 +3,23 @@ import Answer from "./Answer";
 
 function Question(props) {
   const answerElements = props.answers.map(answer => (
-    <Answer
-      questionID={answer.questionID}
-      imgsrc={answer.imgsrc}
-      caption={answer.caption}
-      photographer={answer.photographer}
-      imgcredit={answer.imgcredit}
-      bucket={answer.bucket}
-      onClick={props.onClick}
-    />
+      <Answer
+        questionID={answer.questionID}
+        imgsrc={answer.imgsrc}
+        caption={answer.caption}
+        photographer={answer.photographer}
+        imgcredit={answer.imgcredit}
+        bucket={answer.bucket}
+        onClick={props.onClick}
+      />
   ));
 
   return (
-    <fieldset id={props.id} style={{backgroundColor: "#f9ecf2"}}>
+    <fieldset id={props.id} className="flex-question" >
       <legend>{props.legend}</legend>
-      <ul role="radiogroup" class="answer-tile">
+      <div role="radiogroup" className="answer-tile" >
         {answerElements}
-      </ul>
+      </div>
     </fieldset>
   )
 }

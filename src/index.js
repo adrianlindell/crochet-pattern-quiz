@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+export { default as Navigation } from "./components/Navigation.jsx";
+export { default as Browse } from "./components/Browse.jsx";
+export { default as MyPatterns } from "./components/MyPatterns.jsx";
+export { default as Quiz } from "./components/Quiz.jsx";
 ReactDOM.render(
   <React.StrictMode>
     <App />

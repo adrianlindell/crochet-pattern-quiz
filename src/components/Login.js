@@ -5,24 +5,21 @@ import { GoogleLogin } from 'react-google-login';
 // refresh token
 import { refreshTokenSetup } from '../utils/refreshToken';
 
-const clientId = '848023384184-eravrd6hcmavjg1bdmcpvcl7q7t7v0ns.apps.googleusercontent.com' //insert client id here
+const clientId = process.env.REACT_APP_FIREBASE_CLIENTID
 
 function Login(props) {
 
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
-    alert(
-      `Logged in successfully! Welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    );
     refreshTokenSetup(res);
     props.setLoggedIn(true);
-    props.setName(res.profileObj.name)
+    props.setGoogleObj(res.profileObj);
   };
 
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
     alert(
-      `Failed to login 😢. Please try again`
+      `Failed to login. Please try again`
     );
   };
 

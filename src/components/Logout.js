@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleLogout } from 'react-google-login';
 
-const clientId = '848023384184-eravrd6hcmavjg1bdmcpvcl7q7t7v0ns.apps.googleusercontent.com' //insert client id here
+const clientId = process.env.REACT_APP_FIREBASE_CLIENTID
 
 function Logout(props) {
 
@@ -9,6 +9,7 @@ function Logout(props) {
     console.log('Logout made successfully');
     alert('Logout made successfully ✌');
     props.setLoggedIn(false);
+    props.setGoogleObj();
   };
 
   return (

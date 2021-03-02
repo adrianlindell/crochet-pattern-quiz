@@ -1,7 +1,11 @@
-import React, { useState } from "react";
-import Question from "./Question";
+import React, { useState } from "react"
+import Question from "./Question"
+import Pattern from "./Pattern"
+import Login from "./Login"
+import Logout from "./Logout"
+import database from '../firebase'
 
-function Form() {
+function Form(props) {
   const ANSWER_DATA = [
     [
       { imgsrc: "https://images.unsplash.com/photo-1577398577097-0ef7f248f0a5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80", caption: "Neon green", photographer: "Thibault Milan", bucket: 0, questionID: "0" },
@@ -16,7 +20,7 @@ function Form() {
       { imgsrc: "https://images.unsplash.com/photo-1487552292919-eccbbd948cba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80", caption: "Rhombus", photographer: "Ben Neale", bucket: 3, questionID: "1" },
     ],
     [
-      { imgsrc: "https://images.unsplash.com/photo-1560362883-654430ce3bee?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=882&q=80", caption: "3", photographer: "marianne bos", bucket: 3, questionID: "2" },
+      { imgsrc: "https://images.unsplash.com/photo-1569219872862-58f96b8f1d65?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTh8fG51bWJlciUyMHRocmVlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60", caption: "3", photographer: "max fuchs", bucket: 3, questionID: "2" },
       { imgsrc: "https://images.unsplash.com/photo-1595480603720-7ab5aa097a34?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80", caption: "64", photographer: "Markus Spiske", bucket: 1, questionID: "2" },
       { imgsrc: "https://images.unsplash.com/photo-1595871263997-a1358d25d7ad?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80", caption: "8", photographer: "samuel gembe", bucket: 2, questionID: "2" },
       { imgsrc: "https://images.unsplash.com/photo-1590436371576-488a4891b4b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80", caption: "37", photographer: "Scott Evans", bucket: 0, questionID: "2" },
@@ -36,62 +40,51 @@ function Form() {
     { isDisabled: true, id: "3", legend: "What is the best season?", answers: ANSWER_DATA[3] },
   ];
 
-  const RESULTS_DATA = [
-    { imgsrc: "https://www.1dogwoof.com/wp-content/uploads/2018/11/amigurumi-seahorse-fb.jpg", photographer: "1dogwoof.com", result: "Seahorse" },
-    { imgsrc: "https://i.ytimg.com/vi/6yFnIw--Hwg/maxresdefault.jpg", photographer: "HappyBerry Crochet via YouTube", result: "Snail" },
-    { imgsrc: "https://pinkmouseboutique.files.wordpress.com/2019/04/img_4060-1.jpg", photographer: "Knit and Crochet Daily", result: "Sea turtle" },
-    { imgsrc: "http://engsidrun.spire.ee/blogs/media/blogs/a/patterns/Frog/PT_IMGP0279.JPG", photographer: "Kristi Tullus", result: "Frog" },
-  ]
-
   const [bucketTotal, setBucketTotal] = useState([0,0,0,0]);
 
   function handleClick(result, questionID) {
-    console.log("BEFORE: question " + questionID + " is " + (document.getElementById(questionID).disabled ? "disabled" : "not disabled"));
     if(!document.getElementById(questionID).disabled) {
-      //console.log("question " + questionID + " is " + (document.getElementById(questionID).disabled ? "disabled" : "not disabled"));
       const buckets = bucketTotal.slice();
-      console.log(result);
       buckets[result]++;
       setBucketTotal(buckets);
-      console.log(buckets);
-      //set all answers for that question to be unclickable
-      //4 answers per question id, all answers for that question id
-      //for(var i = 0; i < 4; i++) {
-      console.log(questionID);
       document.getElementById(questionID).disabled = true;
-      document.getElementById(questionID).style.backgroundColor = "#cc6699";
-      console.log("AFTER: question " + questionID + " is " + (document.getElementById(questionID).disabled ? "disabled" : "not disabled"));
+      document.getElementById(questionID).style.backgroundColor = "#B8F2E6";
+      document.getElementById((parseInt(questionID) + 1).toString()).scrollIntoView({ behavior: "smooth"});
     }
-    else {
-      console.log("question " + questionID + " wasn't changed");
-    }
-      //Form.getElementById(0).class = "answer-nonclickable";
-    //}
   }
 
   function displayResults() {
     const largest = bucketTotal.indexOf(Math.max(...bucketTotal));
-    const thisResult = RESULTS_DATA[largest];
+    const thisResult = props.RESULTS_DATA[largest];
 
     return (
-      <div class="results">
-        <img alt={thisResult.result} src={thisResult.imgsrc} />
-        <div class="image-caption">{thisResult.result}</div>
-        <div class="image-credit">Photo by {thisResult.photographer}</div>
+      <div>
+        <p style={{fontSize: "2.5rem"}} >You got... {thisResult.result}!</p>
+        <Pattern
+          googleObj={props.googleObj}
+          result={thisResult.result}
+          imgsrc={thisResult.imgsrc}
+          photographer={thisResult.photographer}
+          url={thisResult.url}
+          isResult={true}
+        />
+        <a href="https://coderssb-project-w21.firebaseapp.com/browse" style={{display: "inline-block", marginTop: "15px"}}>View all patterns</a>
       </div>
     );
   }
 
   const questionList = QUESTION_DATA.map( question => (
-      <Question
-        id={question.id}
-        legend={question.legend}
-        answers={question.answers}
-        onClick={handleClick}
-      />
+      <div class="question">
+        <Question
+          id={question.id}
+          legend={question.legend}
+          answers={question.answers}
+          onClick={handleClick}
+        />
+      </div>
   ));
 
-  const renderResults = (bucketTotal.reduce(function(a, b){ return a + b; }, 0) < QUESTION_DATA.length) ? <div class="results">Please select an answer for each question.</div> : displayResults();
+  const renderResults = (bucketTotal.reduce(function(a, b){ return a + b; }, 0) < QUESTION_DATA.length) ? <div class="results" >Please select an answer for each question.</div> : displayResults();
 
   function resetQuiz() {
     //reset buckets
@@ -99,18 +92,20 @@ function Form() {
     //set answers to be unclicked and clickable
     for (var i = 0; i < 4; i++) {
       document.getElementById(i).disabled = false;
-      document.getElementById(i).style.backgroundColor = "#f9ecf2";
+      document.getElementById(i).style.backgroundColor = "#FFA69E";
     }
+    document.getElementById(0).scrollIntoView({ behavior: "smooth"});
   }
 
   return (
-    <form>
+    <form className="quiz">
       {questionList}
-      {renderResults}
-      <button type="reset" onClick={() => resetQuiz()}>Reset quiz</button>
+      <div className="results" id={bucketTotal.length} >
+        {renderResults}
+        <button type="reset" onClick={() => resetQuiz()}>Reset quiz</button>
+      </div>
     </form>
   );
-
 }
 
 export default Form;
