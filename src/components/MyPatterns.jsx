@@ -3,6 +3,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Pattern from "./Pattern"
 import database from '../firebase';
+import { Link } from "react-router-dom";
 
 function MyPatterns(props) {
     const [patterns, setPatterns] = useState([])
@@ -58,7 +59,9 @@ function MyPatterns(props) {
               <button onClick={() => handleClick()}>Delete all saved patterns</button>
           </div>
           :(props.googleObj ? <p>You have no patterns saved.</p> : <p>Please log in to view saved patterns.</p>)}
-        <a href="https://coderssb-project-w21.firebaseapp.com/browse">View all patterns</a>
+        <Link class="nav-link" to="/browse">
+          View all patterns
+        </Link>
       </div>
     )
 }

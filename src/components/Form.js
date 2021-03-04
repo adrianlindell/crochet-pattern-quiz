@@ -1,9 +1,7 @@
 import React, { useState } from "react"
 import Question from "./Question"
 import Pattern from "./Pattern"
-import Login from "./Login"
-import Logout from "./Logout"
-import database from '../firebase'
+import { Link } from "react-router-dom";
 
 function Form(props) {
   const ANSWER_DATA = [
@@ -68,7 +66,9 @@ function Form(props) {
           url={thisResult.url}
           isResult={true}
         />
-        <a href="https://coderssb-project-w21.firebaseapp.com/browse" style={{display: "inline-block", marginTop: "15px"}}>View all patterns</a>
+        <Link class="nav-link" to="/browse" style={{display: "inline-block", marginTop: "15px"}}>
+          View all patterns
+        </Link>
       </div>
     );
   }
